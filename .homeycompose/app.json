@@ -1,0 +1,28 @@
+{
+  "id": "org.xojs.emporiavue",
+  "version": "1.0.0",
+  "compatibility": ">=5.0.0",
+  "sdk": 3,
+  "platforms": [
+    "local"
+  ],
+  "name": {
+    "en": "EnergyVue"
+  },
+  "description": {
+    "en": "Monitor energy with your Emporia Vue."
+  },
+  "category": [
+    "energy"
+  ],
+  "permissions": [],
+  "images": {
+    "small": "/assets/images/small.png",
+    "large": "/assets/images/large.png",
+    "xlarge": "/assets/images/xlarge.png"
+  },
+  "author": {
+    "name": "Tim Wilkinson",
+    "email": "tim.wilkinson@me.com"
+  }
+}
