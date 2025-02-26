@@ -25,5 +25,10 @@
   "author": {
     "name": "Tim Wilkinson",
     "email": "tim.wilkinson@me.com"
+  },
+  "homeyCommunityTopicId": 131620,
+  "source": "https://github.com/aanon4/org.xojs.emporiavue",
+  "bugs": {
+    "url": "https://github.com/aanon4/org.xojs.emporiavue/issues"
   }
 }

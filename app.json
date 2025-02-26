@@ -11,11 +11,12 @@
     "en": "EnergyVue"
   },
   "description": {
-    "en": "Monitor energy with your Emporia Vue."
+    "en": "Monitor your home's energy with Emporia Vue."
   },
   "category": [
     "energy"
   ],
+  "brandColor": "#689D40",
   "permissions": [],
   "images": {
     "small": "/assets/images/small.png",
