@@ -51,6 +51,7 @@ module.exports = class VueDevice extends Homey.Device {
 
     async updateUsage(watts) {
         this.setCapabilityValue("measure_power", watts).catch(this.error);
+        this.setAvailable().catch(this.error);
     }
 
 };

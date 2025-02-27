@@ -62,15 +62,20 @@ module.exports = class VueDriver extends Homey.Driver {
 
     async deviceStarted(device) {
         this.log('VueDriver has deviceStarted');
-        const data = device.getSettings();
-        if (this.username != data.username || this.password != data.password) {
+        const settings = device.getSettings();
+        if (this.username != settings.username || this.password != settings.password) {
             this.api = null;
-            this.username = data.username;
-            this.password = data.password;
+            this.username = settings.username;
+            this.password = settings.password;
             this.setInterval();
             this.log('VueDriver has started api');
             this.api = await EmporiaView(this.username, this.password);
             this.setInterval(INTERVAL);
+            // Update the settings in all the other devices
+            const devices = this.getDevices();
+            for (let i = 0; i < devices.length; i++) {
+                devices[i].setSettings(settings);
+            }
         }
         await this.update();
     }

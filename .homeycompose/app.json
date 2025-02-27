@@ -1,34 +1,34 @@
 {
-  "id": "org.xojs.emporiavue",
-  "version": "1.0.0",
-  "compatibility": ">=5.0.0",
-  "sdk": 3,
-  "platforms": [
-    "local"
-  ],
-  "name": {
-    "en": "EnergyVue"
-  },
-  "description": {
-    "en": "Monitor your home's energy with Emporia Vue."
-  },
-  "category": [
-    "energy"
-  ],
-  "brandColor": "#689D40",
-  "permissions": [],
-  "images": {
-    "small": "/assets/images/small.png",
-    "large": "/assets/images/large.png",
-    "xlarge": "/assets/images/xlarge.png"
-  },
-  "author": {
-    "name": "Tim Wilkinson",
-    "email": "tim.wilkinson@me.com"
-  },
-  "homeyCommunityTopicId": 131620,
-  "source": "https://github.com/aanon4/org.xojs.emporiavue",
-  "bugs": {
-    "url": "https://github.com/aanon4/org.xojs.emporiavue/issues"
-  }
+    "id": "org.xojs.emporiavue",
+    "version": "1.0.0",
+    "compatibility": ">=5.0.0",
+    "sdk": 3,
+    "platforms": [
+        "local"
+    ],
+    "name": {
+        "en": "EnergyVue"
+    },
+    "description": {
+        "en": "Monitor the energy your home uses in realtime."
+    },
+    "category": [
+        "energy"
+    ],
+    "brandColor": "#689D40",
+    "permissions": [],
+    "images": {
+        "small": "/assets/images/small.png",
+        "large": "/assets/images/large.png",
+        "xlarge": "/assets/images/xlarge.png"
+    },
+    "author": {
+        "name": "Tim Wilkinson",
+        "email": "tim.wilkinson@me.com"
+    },
+    "homeyCommunityTopicId": 131620,
+    "source": "https://github.com/aanon4/org.xojs.emporiavue",
+    "bugs": {
+        "url": "https://github.com/aanon4/org.xojs.emporiavue/issues"
+    }
 }
