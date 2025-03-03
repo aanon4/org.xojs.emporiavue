@@ -13,8 +13,6 @@ module.exports = class VueDriver extends Homey.Driver {
     async onInit() {
         this.log('VueDriver has been initialized');
         this.api = null;
-        this.username = null;
-        this.password = null;
     }
 
     async onPair(session) {
@@ -56,28 +54,25 @@ module.exports = class VueDriver extends Homey.Driver {
     setInterval(interval) {
         this.homey.clearInterval(this.interval);
         if (interval) {
-            this.interval = this.homey.setInterval(() => this.update(), interval);
+            this.interval = this.homey.setInterval(() => this.update().catch(this.log), interval);
         }
     }
 
     async deviceStarted(device) {
         this.log('VueDriver has deviceStarted');
-        const settings = device.getSettings();
-        if (this.username != settings.username || this.password != settings.password) {
-            this.api = null;
-            this.username = settings.username;
-            this.password = settings.password;
-            this.setInterval();
-            this.log('VueDriver has started api');
-            this.api = await EmporiaView(this.username, this.password);
-            this.setInterval(INTERVAL);
-            // Update the settings in all the other devices
-            const devices = this.getDevices();
-            for (let i = 0; i < devices.length; i++) {
-                devices[i].setSettings(settings);
+        if (!this.api) {
+            try {
+                this.log('VueDriver has started api');
+                const settings = device.getSettings();
+                this.api = await EmporiaView(settings.username, settings.password);
+                this.setInterval(INTERVAL);
+            }
+            catch (e) {
+                this.log(e);
+                return false;
             }
         }
-        await this.update();
+        this.update().catch(this.log);
     }
 
     async deviceStopped(device) {
@@ -85,6 +80,7 @@ module.exports = class VueDriver extends Homey.Driver {
         const devices = this.getDevices();
         if (!devices.length) {
             this.setInterval();
+            this.api = null;
         }
     }
 
