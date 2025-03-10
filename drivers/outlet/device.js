@@ -2,21 +2,22 @@
 
 const Homey = require('homey');
 
-module.exports = class VueDevice extends Homey.Device {
+module.exports = class VueOutletDevice extends Homey.Device {
 
     /**
      * onInit is called when the device is initialized.
      */
     async onInit() {
-        this.log('VueDevice has been initialized');
+        this.log('VueOutletDevice has been initialized');
         this.driver.deviceStarted(this);
+        await this.controls();
     }
 
     /**
      * onAdded is called when the user adds the device, called just after pairing.
      */
     async onAdded() {
-        this.log('VueDevice has been added');
+        this.log('VueOutletDevice has been added');
     }
 
     /**
@@ -28,7 +29,7 @@ module.exports = class VueDevice extends Homey.Device {
      * @returns {Promise<string|void>} return a custom message that will be displayed
      */
     async onSettings({ oldSettings, newSettings, changedKeys }) {
-        this.log('VueDevice settings where changed');
+        this.log('VueOutletDevice settings where changed');
         this.driver.deviceStarted(this);
     }
 
@@ -38,20 +39,31 @@ module.exports = class VueDevice extends Homey.Device {
      * @param {string} name The new name
      */
     async onRenamed(name) {
-        this.log('VueDevice was renamed');
+        this.log('VueOutletDevice was renamed');
     }
 
     /**
      * onDeleted is called when the user deleted the device.
      */
     async onDeleted() {
-        this.log('VueDevice has been deleted');
+        this.log('VueOutletDevice has been deleted');
         this.driver.deviceStopped(this);
     }
 
     async updateUsage(watts) {
         this.setCapabilityValue("measure_power", watts).catch(this.log);
         this.setAvailable().catch(this.log);
+    }
+
+    async updateOn(on) {
+        this.setCapabilityValue("onoff", on).catch(this.log);
+        this.setAvailable().catch(this.log);
+    }
+
+    async controls() {
+        this.registerCapabilityListener("onoff", async (value) => {
+            this.driver.setOutlet(this, value).catch(this.log);
+        });
     }
 
 };

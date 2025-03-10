@@ -35,6 +35,61 @@
   "drivers": [
     {
       "name": {
+        "en": "Emporia Vue Outlet"
+      },
+      "class": "socket",
+      "capabilities": [
+        "measure_power",
+        "onoff"
+      ],
+      "platforms": [
+        "local"
+      ],
+      "connectivity": [],
+      "images": {
+        "small": "/drivers/outlet/assets/images/small.png",
+        "large": "/drivers/outlet/assets/images/large.png",
+        "xlarge": "/drivers/outlet/assets/images/xlarge.png"
+      },
+      "pair": [
+        {
+          "id": "login_credentials",
+          "template": "login_credentials",
+          "options": {
+            "logo": "../../../assets/logo.png",
+            "title": {
+              "en": "Emporia Energy Login"
+            },
+            "usernameLabel": {
+              "en": "E-mail address"
+            },
+            "usernamePlaceholder": {
+              "en": "john@doe.com"
+            },
+            "passwordLabel": {
+              "en": "Password"
+            },
+            "passwordPlaceholder": {
+              "en": "Password"
+            }
+          }
+        },
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_devices"
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
+      "id": "outlet"
+    },
+    {
+      "name": {
         "en": "Emporia Vue Energy Monitor"
       },
       "class": "sensor",
@@ -55,7 +110,7 @@
           "id": "login_credentials",
           "template": "login_credentials",
           "options": {
-            "logo": "../assets/logo.png",
+            "logo": "../../../assets/logo.png",
             "title": {
               "en": "Emporia Energy Login"
             },

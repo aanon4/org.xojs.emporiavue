@@ -1,10 +1,11 @@
 {
     "name": {
-        "en": "Emporia Vue Energy Monitor"
+        "en": "Emporia Vue Outlet"
     },
-    "class": "sensor",
+    "class": "socket",
     "capabilities": [
-        "measure_power"
+        "measure_power",
+        "onoff"
     ],
     "platforms": [
         "local"

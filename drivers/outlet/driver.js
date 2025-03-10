@@ -5,13 +5,13 @@ const EmporiaView = require("emporiavue");
 
 const INTERVAL = 60 * 1000; // 1 minutes
 
-module.exports = class VueDriver extends Homey.Driver {
+module.exports = class VueOutletDriver extends Homey.Driver {
 
     /**
      * onInit is called when the driver is initialized.
      */
     async onInit() {
-        this.log('VueDriver has been initialized');
+        this.log('VueOutletDriver has been initialized');
         this.api = null;
     }
 
@@ -34,10 +34,10 @@ module.exports = class VueDriver extends Homey.Driver {
             }
         });
         session.setHandler("list_devices", async () => {
-            const d = [];
+            const devs = [];
             devices.forEach(d => {
-                if (d.type === "monitor") {
-                    d.push({
+                if (d.type === "outlet") {
+                    devs.push({
                         name: d.name,
                         data: {
                             name: d.name,
@@ -51,7 +51,7 @@ module.exports = class VueDriver extends Homey.Driver {
                     });
                 }
             });
-            return d;
+            return devs;
         });
     }
 
@@ -63,10 +63,10 @@ module.exports = class VueDriver extends Homey.Driver {
     }
 
     async deviceStarted(device) {
-        this.log('VueDriver has deviceStarted');
+        this.log('VueOutletDriver has deviceStarted');
         if (!this.api) {
             try {
-                this.log('VueDriver has started api');
+                this.log('VueOutletDriver has started api');
                 const settings = device.getSettings();
                 this.api = await EmporiaView(settings.username, settings.password);
                 this.setInterval(INTERVAL);
@@ -80,7 +80,7 @@ module.exports = class VueDriver extends Homey.Driver {
     }
 
     async deviceStopped(device) {
-        this.log("VueDriver has deviceStopped");
+        this.log("VueOutletDriver has deviceStopped");
         const devices = this.getDevices();
         if (!devices.length) {
             this.setInterval();
@@ -88,24 +88,37 @@ module.exports = class VueDriver extends Homey.Driver {
         }
     }
 
+    async setOutlet(device, on) {
+        this.log("VueOutletDriver setOutlet");
+        const data = device.getData();
+        await this.api.updateOutletState({
+            dgid: data.dgid,
+            on: on
+        });
+    }
+
     async update() {
-        this.log("VueDriver update");
+        this.log("VueOutletDriver update");
         const devices = this.getDevices();
         if (this.api && devices.length) {
-            this.log("VueDriver calling getDeviceTimedUsage");
-            const usage = await this.api.getDeviceTimedUsage("1MIN", devices.map(device => {
+            this.log("VueOutletDriver calling getDeviceTimedUsage");
+            const devmap = devices.map(device => {
                 const data = device.getData();
                 return {
+                    type: "outlet",
                     name: data.name,
                     dgid: data.dgid,
                     channel: data.channel
                 }
-            }));
+            });
+            const usage = await this.api.getDeviceTimedUsage("1MIN", devmap);
+            await this.api.getOutletState(devmap);
             for (let i = 0; i < devices.length; i++) {
                 const used = usage[i].usage;
                 if (typeof(used) === "number") {
                     devices[i].updateUsage(used * 60 * 1000).catch(this.log);
                 }
+                devices[i].updateOn(devmap[i].on).catch(this.log);
             }
         }
     }
