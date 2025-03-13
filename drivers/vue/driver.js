@@ -34,10 +34,10 @@ module.exports = class VueDriver extends Homey.Driver {
             }
         });
         session.setHandler("list_devices", async () => {
-            const d = [];
+            const devs = [];
             devices.forEach(d => {
                 if (d.type === "monitor") {
-                    d.push({
+                    devs.push({
                         name: d.name,
                         data: {
                             name: d.name,
@@ -51,7 +51,7 @@ module.exports = class VueDriver extends Homey.Driver {
                     });
                 }
             });
-            return d;
+            return devs;
         });
     }
 
