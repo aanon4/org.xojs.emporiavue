@@ -10,5 +10,8 @@
   },
   "1.1.0": {
     "en": "Add support for smart sockets"
+  },
+  "1.1.1": {
+    "en": "Bug fix"
   }
 }
