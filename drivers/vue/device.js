@@ -9,6 +9,12 @@ module.exports = class VueDevice extends Homey.Device {
      */
     async onInit() {
         this.log('VueDevice has been initialized');
+        if (!this.hasCapability("meter_power")) {
+            this.addCapability("meter_power").catch(this.log);
+        }
+        if (!this.getStoreValue("my_meter_power")) {
+            this.setStoreValue("my_meter_power", 0).catch(this.log);
+        }
         this.driver.deviceStarted(this);
     }
 
@@ -51,6 +57,10 @@ module.exports = class VueDevice extends Homey.Device {
 
     async updateUsage(watts) {
         this.setCapabilityValue("measure_power", watts).catch(this.log);
+        // updateUsage is called every 60 seconds, so we can calculate the kWH increment
+        const meter = this.getStoreValue("my_meter_power") + watts / (60 * 1000);
+        this.setStoreValue("my_meter_power", meter).catch(this.log);
+        this.setCapabilityValue("meter_power", meter).catch(this.log);
         this.setAvailable().catch(this.log);
     }
 

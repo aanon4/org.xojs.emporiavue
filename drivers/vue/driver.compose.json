@@ -4,6 +4,7 @@
     },
     "class": "sensor",
     "capabilities": [
+        "meter_power",
         "measure_power"
     ],
     "platforms": [
