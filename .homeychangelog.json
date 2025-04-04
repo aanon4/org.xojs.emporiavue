@@ -13,5 +13,8 @@
   },
   "1.1.1": {
     "en": "Bug fix"
+  },
+  "1.2.0": {
+    "en": "Add meter_power so these show on the new energy tab."
   }
 }
