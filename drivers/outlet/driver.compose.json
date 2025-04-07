@@ -4,6 +4,7 @@
     },
     "class": "socket",
     "capabilities": [
+        "meter_power",
         "measure_power",
         "onoff"
     ],
