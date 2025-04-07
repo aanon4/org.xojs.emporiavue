@@ -16,5 +16,8 @@
   },
   "1.2.0": {
     "en": "Add meter_power so these show on the new energy tab."
+  },
+  "1.2.1": {
+    "en": "Add meters to outlets"
   }
 }
