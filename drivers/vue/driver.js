@@ -13,18 +13,28 @@ module.exports = class VueDriver extends Homey.Driver {
     async onInit() {
         this.log('VueDriver has been initialized');
         this.api = null;
+        this.username = null;
+        this.password = null;
     }
 
     async onPair(session) {
-        let username;
-        let password;
+        this.log("VueDriver onPair");
         let devices;
+        session.setHandler("start", async (data) => {
+            if (!this.api) {
+                await session.showView("login_credentials");
+            }
+            else {
+                devices = await this.api.getDevices();
+                await session.showView("list_devices");
+            }
+        });
         session.setHandler("login", async (data) => {
             try {
                 const api = await EmporiaView(data.username, data.password);
                 devices = await api.getDevices();
-                username = data.username;
-                password = data.password;
+                this.username = data.username;
+                this.password = data.password;
                 this.log("Auth success");
                 return true;
             }
@@ -45,8 +55,8 @@ module.exports = class VueDriver extends Homey.Driver {
                             channel: d.channel
                         },
                         settings: {
-                            username: username,
-                            password: password
+                            username: this.username,
+                            password: this.password
                         }
                     });
                 }
@@ -69,6 +79,8 @@ module.exports = class VueDriver extends Homey.Driver {
                 this.log('VueDriver has started api');
                 const settings = device.getSettings();
                 this.api = await EmporiaView(settings.username, settings.password);
+                this.username = settings.username;
+                this.password = settings.password;
                 this.setInterval(INTERVAL);
             }
             catch (e) {
