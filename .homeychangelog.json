@@ -19,5 +19,8 @@
   },
   "1.2.1": {
     "en": "Add meters to outlets"
+  },
+  "1.2.2": {
+    "en": "Fix outlet energy tracking"
   }
 }
